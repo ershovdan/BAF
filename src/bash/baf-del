@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "/home/ershovdan/My projects/baf/src/bash/"
+
+# shellcheck disable=SC2068
+"../../venv/bin/python3" "../front_validator.py" -del $@

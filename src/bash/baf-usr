@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd "/home/ershovdan/My projects/baf/src/bash/"
+
+"../../venv/bin/python3" "../front_validator.py" -usr $1 $2 $3 $4 $5
