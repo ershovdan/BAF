@@ -3,37 +3,49 @@ import sys
 from loggers.logger import Upc
 
 
-if len(sys.argv) > 4:
+options = sys.argv[1:] # json string
+
+if len(options) > 6: # checking input json string
     print("baf-upc: too many options")
     exit()
-elif len(sys.argv) < 4:
+elif len(options) < 6: # checking input json string
     print("baf-upc: some options are missing")
     exit()
-elif len(sys.argv) == 4:
-    OptionsFromCommand = []
-    OptionsFromCommandValues = []
+elif len(options) == 6: # json input string is right format (e.g. ["usd": 0.0, "usd": 0.0, "rub": 0.0])
+    CurrenciesFromCommand = [] # currencies from json string
+    CurrenciesFromCommandValues = [] # currency rates from json string
 
-    options = sys.argv[1:]
+    Cur = {'rub', 'usd', 'eur'} # available currencies
 
-    type = None
+    for i in range(len(options)): # creating CurrenciesFromCommand
+        if i % 2 == 0:
+            string = options[i]
+            new_string = ''
 
-    Cur = {'rub', 'usd', 'eur'}
+            for j in range(len(string)):
+                if (string[j] != ' ') and (string[j] != '[') and (string[j] != ']') and (string[j] != ':') and (string[j] != ','):
+                    new_string += string[j]
 
-    for i in options:  # creating OptionsFromCommand
-        OptionsFromCommand.append(i[:i.find('=')][1:])
-        OptionsFromCommandValues.append(i[i.find('=') + 1:])
+            CurrenciesFromCommand.append(new_string)
+        else:
+            string = options[i]
+            new_string = ''
 
-    if set(OptionsFromCommand).issubset(Cur):
+            for j in range(len(string)):
+                if (string[j] != ' ') and (string[j] != '[') and (string[j] != ']') and (string[j] != ':') and (string[j] != ','):
+                    new_string += string[j]
 
-        for i in OptionsFromCommandValues:
+            CurrenciesFromCommandValues.append(new_string)
+
+    if set(CurrenciesFromCommand).issubset(Cur): # checking json for unexpected currencies
+        for i in CurrenciesFromCommandValues:
             try:
                 float(i)
             except:
                 print("baf-upc: invalid JSON input")
                 exit()
 
-        dict = {OptionsFromCommand[0]: float(OptionsFromCommandValues[0]), OptionsFromCommand[1]: float(OptionsFromCommandValues[1]), OptionsFromCommand[2]: float(OptionsFromCommandValues[2])}
-
+        dict = {CurrenciesFromCommand[0]: float(CurrenciesFromCommandValues[0]), CurrenciesFromCommand[1]: float(CurrenciesFromCommandValues[1]), CurrenciesFromCommand[2]: float(CurrenciesFromCommandValues[2])} # updating currency rate
         Upc().info('update: ' + str(dict))
 
         with open('../cfg/currency_rate.json', 'w') as file:

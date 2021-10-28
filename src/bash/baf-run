@@ -1,5 +1,0 @@
-#!/bin/bash
-
-cd "/home/ershovdan/My projects/baf/src/bash/"
-
-sudo "../../venv/bin/python3" "../main.py"

@@ -14,6 +14,7 @@ Welcome to the BAF (Bourne Again Ferrum) documentation.
   - currency updater
 - Output
 - Configurator
+- Structure
 
 ___
 
@@ -27,7 +28,7 @@ ___
 
 ### Information
 
-Front validator is interface between user and core. It uses front_validator-main bridge to interact with core.
+Front validator is interface between user and core. It uses front_validator-main bridge to interact with core. There are 64 FVM bridges (front_validator-main-N.json).
 
 ![general view](docs/validator_bridge.png)
 
@@ -58,7 +59,7 @@ __baf-add__
 - tax (t=float (%))
 - tax type (tt=b(before), a(after))
 - interest (i=float)
-- type (type=annuity loan (al), differentiated loan (dl), simple income (si), simple expense (se), regular income (ri), regular expense (re), deposit (d))
+- type (type=annuity loan (an), differentiated loan (dn), simple income (si), simple expense (se), regular income (ri), regular expense (re), deposit (d))
 - length (l=integer)
 - user id (uid=integer)
 - add date (ad=DD.MM.YYYY)
@@ -67,24 +68,40 @@ __baf-add__
 (all commnads)
 
 __baf-chg__
-- sum (s=float)
-- tax (t=float (%))
-- tax type (tt=b(before), a(after))
-- interest (i=float)
-- type (type=annuity loan (al), differentiated loan (dl), simple income (si), simple expense (se), regular income (ri), regular expense (re), deposit (d))
-- length (l=integer)
-- user id (uid=integer)
-- add date (ad=DD.MM.YYYY)
-- regularity (r=o (once), d (day), m (month))
-- new sum (ns=float)
-- new tax (nt=float (%))
-- new tax type (ntt=b(before), a(after))
-- new interest (ni=float)
-- new length (nl=integer)
-- new add date (nad=DD.MM.YYYY)
-- new regularity (nr=o (once), d (day), m (month))
+- type
+- by user id (uid=integer)
+  - sum (s=float)
+  - tax (t=float (%))
+  - tax type (tt=b(before), a(after))
+  - interest (i=float)
+  - type (type=annuity loan (an), differentiated loan (dn), simple income (si), simple expense (se), regular income (ri), regular expense (re), deposit (d))
+  - length (l=integer)
+  - user id (uid=integer)
+  - add date (ad=DD.MM.YYYY)
+  - regularity (r=o (once), d (day), m (month))
+  
+  (all commnads)
+  - new sum (ns=float)
+  - new tax (nt=float (%))
+  - new tax type (ntt=b(before), a(after))
+  - new interest (ni=float)
+  - new length (nl=integer)
+  - new add date (nad=DD.MM.YYYY)
+  - new regularity (nr=o (once), d (day), m (month))
 
-(all commnads)
+  (>0 commands)
+
+- by operation id (oid=integer)
+  - new sum (ns=float)
+  - new tax (nt=float (%))
+  - new tax type (ntt=b(before), a(after))
+  - new interest (ni=float)
+  - new length (nl=integer)
+  - new add date (nad=DD.MM.YYYY)
+  - new regularity (nr=o (once), d (day), m (month))
+  
+  (>0 commands)
+
 
 __baf-del__
 - operation id (oid=integer)
@@ -104,7 +121,7 @@ __baf-get__
   - tax (t=float (%))
   - tax type (tt=b(before), a(after))
   - interest (i=float)
-  - type (type=annuity loan (al), differentiated loan (dl), simple income (si), simple expense (se), regular income (ri), regular expense (re), deposit (d))
+  - type (type=annuity loan (an), differentiated loan (dn), simple income (si), simple expense (se), regular income (ri), regular expense (re), deposit (d))
   - length (l=integer)
   - user id (uid=integer)
   - add date (ad=DD.MM.YYYY)
@@ -125,9 +142,7 @@ __baf-usr__
   - first day of week (fd=m (Monday), s(Sunday))
   - is active (ia=t (true)m f (false))
   - new username (un=string)
-
-(all options)
-
+  
 - get:
   - username (un=string)
   
@@ -144,6 +159,10 @@ __baf-run__
 
 starts core, use from root user
 
+__baf-end__
+
+stops core, use from root user
+
 ###Currency rate updater (UPdate Currency)
 
 ```bash
@@ -158,7 +177,7 @@ ___
 
 ## Output
 
-Output splits into *error* and *output*.
+> Output splits into *error* and *output*.
 
 ```
   baf-<command>: reason
@@ -166,6 +185,9 @@ Output splits into *error* and *output*.
 
 error
 
+```
+  json
+```
 
 Core return JSON format output.
 
@@ -183,7 +205,59 @@ use from root user
 1. Update core (add tables and columns to data base)
 2. Install/reset core (drop and create data base)
 3. Quit
-<<<<<<< HEAD
-=======
 
->>>>>>> v0.1.0d
+---
+
+## Structure
+
+### src/
+
+bash/
+
+- baf-add
+- baf-chg
+- baf-del
+- baf-get
+- baf-cur
+- baf-usr
+- baf-cfg
+- baf-end
+- baf-run
+- baf-upc
+
+bridges/
+
+- 64 fvm bridges
+
+cfg/
+ - baf_cfg.json - main cfg
+ - currency_rate.json - file with currency rates
+ - run - status of core (true or false)
+
+consts/ (empty states of bridges)
+ - front_validator-main.const
+
+/handlers
+ - operation_handler.py - calculation of operations and taxes
+ - currency.py - calculation between currency point and current currency
+
+/loggers
+ - logger_init.py - initializer of logs
+ - logger.py
+
+/logs
+  - /main
+    - main.journal - log of every start and stop of core
+    - other - logs of core
+  
+  - /currency/ - logs of currency rate updater
+  - init_log.log - log of logger_init.py
+  - use.json - list with actual logs for run
+
+main.py
+
+front_validator.py
+
+configurator.py
+
+currency_updater.py
