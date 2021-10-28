@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd # your dir
+
+sudo "../../venv/bin/python3" "../main.py"

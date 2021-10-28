@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd # your dir
+
+sudo echo '"false"' > "../cfg/run"

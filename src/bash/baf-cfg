@@ -1,0 +1,10 @@
+#!/bin/bash
+
+sudo apt-get install figlet > /dev/null
+
+figlet 'B A F'
+
+sudo chown root:root "../cfg/baf_cfg.json"
+sudo chmod 600 "../cfg/baf_cfg.json"
+
+"../../venv/bin/python3" "../configurator.py" $1

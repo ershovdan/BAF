@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd # your dir
+
+"../../venv/bin/python3" "../front_validator.py" -usr $1 $2 $3 $4 $5
