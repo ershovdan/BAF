@@ -26,7 +26,7 @@ ___
 
 ##Input
 
-### Information
+## Information
 
 Front validator is interface between user and core. It uses front_validator-main bridge to interact with core. There are 64 FVM bridges (front_validator-main-N.json).
 
@@ -34,7 +34,7 @@ Front validator is interface between user and core. It uses front_validator-main
 
 ![general view](docs/validator_bridge_ext.png)
 
-### Syntax
+## Syntax
 
 ```
     baf-<command> -option1 -optionN
@@ -52,7 +52,7 @@ basic option
 ```
 option with value
 
-###Commands
+##Commands
 
 __baf-add__
 - sum (s=float)
@@ -163,7 +163,7 @@ __baf-end__
 
 stops core, use from root user
 
-###Currency rate updater (UPdate Currency)
+##Currency rate updater (UPdate Currency)
 
 ```bash
   baf-upc ["usd": 0.0, "usd": 0.0, "rub": 0.0]
@@ -210,7 +210,7 @@ use from root user
 
 ## Structure
 
-### src/
+## src/
 
 bash/
 
