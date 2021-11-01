@@ -152,8 +152,9 @@ def user(options):
         OptionsFromCommandValues = []  # options after =
 
         for i in options:  # creating OptionsFromCommand and OptionsFromCommandValues
-            OptionsFromCommand.append(i[:i.find('=')])
-            OptionsFromCommandValues.append(i[i.find('=') + 1:])
+            if i != 'add':
+                OptionsFromCommand.append(i[:i.find('=')])
+                OptionsFromCommandValues.append(i[i.find('=') + 1:])
 
         for i in OptionsFromCommand:  # checking for unexpected options
             if i not in NeedOptions:
